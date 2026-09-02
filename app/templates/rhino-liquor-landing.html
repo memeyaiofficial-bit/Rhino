@@ -1,0 +1,1295 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RHINO — Bottle Shop</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --ink: #17150f;
+        --ink-2: #221e15;
+        --hide: #3b3324;
+        --bone: #efe7d3;
+        --bone-dim: #cfc3a2;
+        --amber: #b8863b;
+        --amber-dim: #8c6a32;
+        --rust: #8b3a2b;
+        --line-dark: rgba(239, 231, 211, 0.16);
+        --line-light: rgba(23, 21, 15, 0.15);
+        --maxw: 1180px;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        margin: 0;
+        background: var(--bone);
+        color: var(--ink);
+        font-family: "Archivo", sans-serif;
+        font-size: 16px;
+        line-height: 1.55;
+        -webkit-font-smoothing: antialiased;
+      }
+      img {
+        max-width: 100%;
+        display: block;
+      }
+      a {
+        color: inherit;
+      }
+      h1,
+      h2,
+      h3 {
+        font-family: "Fraunces", serif;
+        font-weight: 700;
+        margin: 0;
+        line-height: 1.04;
+        letter-spacing: -0.01em;
+      }
+      .wrap {
+        max-width: var(--maxw);
+        margin: 0 auto;
+        padding: 0 32px;
+      }
+      .label {
+        font-family: "Archivo", sans-serif;
+        font-weight: 600;
+        font-size: 13px;
+        letter-spacing: 0.02em;
+        color: var(--amber-dim);
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 14px 26px;
+        font-family: "Archivo", sans-serif;
+        font-weight: 600;
+        font-size: 15px;
+        border: 1.5px solid currentColor;
+        background: none;
+        cursor: pointer;
+        text-decoration: none;
+        white-space: nowrap;
+      }
+      .btn-solid {
+        background: var(--rust);
+        color: var(--bone);
+        border-color: var(--rust);
+      }
+      .btn-solid:hover {
+        background: #732f22;
+        border-color: #732f22;
+      }
+      .btn-line {
+        color: var(--ink);
+        border-color: var(--ink);
+      }
+      .btn-line:hover {
+        background: var(--ink);
+        color: var(--bone);
+      }
+      .btn-line-bone {
+        color: var(--bone);
+        border-color: var(--line-dark);
+      }
+      .btn-line-bone:hover {
+        background: var(--bone);
+        color: var(--ink);
+        border-color: var(--bone);
+      }
+
+      .icon {
+        width: 22px;
+        height: 22px;
+        stroke: currentColor;
+        fill: none;
+        stroke-width: 1.6;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        flex-shrink: 0;
+      }
+
+      /* ---------- NAV ---------- */
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        background: var(--ink);
+        color: var(--bone);
+        border-bottom: 1px solid var(--line-dark);
+      }
+      .nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 18px 32px;
+        max-width: var(--maxw);
+        margin: 0 auto;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+        color: var(--bone);
+      }
+      .brand svg {
+        width: 30px;
+        height: 30px;
+      }
+      .brand span {
+        font-family: "Fraunces", serif;
+        font-weight: 900;
+        font-size: 22px;
+        letter-spacing: 0.01em;
+      }
+      .navlinks {
+        display: flex;
+        align-items: center;
+        gap: 34px;
+      }
+      .navlinks a {
+        text-decoration: none;
+        font-size: 14.5px;
+        font-weight: 500;
+        color: var(--bone-dim);
+      }
+      .navlinks a:hover {
+        color: var(--bone);
+      }
+      .navcta {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+      }
+      .menu-toggle {
+        display: none;
+        background: none;
+        border: none;
+        color: var(--bone);
+        cursor: pointer;
+      }
+
+      /* ---------- HORN DIVIDER ---------- */
+      .divider {
+        position: relative;
+        height: 46px;
+      }
+      .divider svg {
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+
+      /* ---------- HERO ---------- */
+      .hero {
+        background: var(--ink);
+        color: var(--bone);
+        overflow: hidden;
+      }
+      .hero-grid {
+        max-width: var(--maxw);
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: center;
+        gap: 20px;
+        padding: 64px 32px 0;
+      }
+      .hero-copy .label {
+        margin-bottom: 18px;
+        display: block;
+      }
+      .hero-copy h1 {
+        font-size: clamp(42px, 5.6vw, 74px);
+        color: var(--bone);
+      }
+      .hero-copy p.lede {
+        margin-top: 22px;
+        max-width: 46ch;
+        color: var(--bone-dim);
+        font-size: 17px;
+      }
+      .hero-actions {
+        display: flex;
+        gap: 14px;
+        margin-top: 34px;
+        flex-wrap: wrap;
+      }
+      .hero-stats {
+        display: flex;
+        gap: 34px;
+        margin-top: 52px;
+        padding-top: 28px;
+        border-top: 1px solid var(--line-dark);
+        flex-wrap: wrap;
+      }
+      .hero-stats div p {
+        margin: 0;
+      }
+      .hero-stats .num {
+        font-family: "Fraunces", serif;
+        font-weight: 700;
+        font-size: 26px;
+        color: var(--amber);
+      }
+      .hero-stats .cap {
+        font-size: 13px;
+        color: var(--bone-dim);
+        margin-top: 2px;
+      }
+
+      .hero-art {
+        position: relative;
+      }
+      .hero-art .frame-main {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 4/5;
+        overflow: hidden;
+        border: 1px solid var(--line-dark);
+      }
+      .hero-art .frame-main img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: grayscale(1) contrast(1.08) brightness(0.92);
+      }
+      .hero-art .scrim {
+        position: absolute;
+        inset: 0;
+        background: rgba(23, 21, 15, 0.18);
+      }
+      .hero-art .frame-detail {
+        position: absolute;
+        left: -40px;
+        bottom: -40px;
+        width: 44%;
+        aspect-ratio: 1/1;
+        border: 6px solid var(--bone);
+        overflow: hidden;
+        background: var(--ink);
+      }
+      .hero-art .frame-detail img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: grayscale(1) contrast(1.15) brightness(0.85) sepia(0.18);
+      }
+
+      /* ---------- SECTION SHELL ---------- */
+      section {
+        padding: 96px 0;
+      }
+      .section-head {
+        max-width: 640px;
+        margin-bottom: 56px;
+      }
+      .section-head .label {
+        display: block;
+        margin-bottom: 14px;
+      }
+      .section-head h2 {
+        font-size: clamp(30px, 3.6vw, 46px);
+      }
+      .section-head p {
+        margin-top: 16px;
+        color: #4a4638;
+        font-size: 16.5px;
+        max-width: 52ch;
+      }
+
+      /* ---------- PHILOSOPHY ---------- */
+      .philosophy {
+        background: var(--bone);
+      }
+      .phil-grid {
+        display: grid;
+        grid-template-columns: 0.9fr 1.1fr;
+        gap: 64px;
+        align-items: center;
+      }
+      .phil-img {
+        position: relative;
+      }
+      .phil-img img {
+        width: 100%;
+        aspect-ratio: 3/4;
+        object-fit: cover;
+        filter: grayscale(1) contrast(1.05) sepia(0.12) brightness(0.98);
+        border: 1px solid var(--line-light);
+      }
+      .phil-text h3 {
+        font-size: clamp(26px, 3vw, 34px);
+        margin-bottom: 20px;
+      }
+      .phil-text p {
+        color: #3e3a2e;
+        font-size: 16.5px;
+        margin-bottom: 16px;
+        max-width: 54ch;
+      }
+      .phil-quote {
+        margin-top: 28px;
+        padding-left: 22px;
+        border-left: 3px solid var(--rust);
+        font-family: "Fraunces", serif;
+        font-style: italic;
+        font-weight: 500;
+        font-size: 19px;
+        color: var(--ink);
+        max-width: 48ch;
+      }
+
+      /* ---------- HERD / CATEGORIES ---------- */
+      .herd {
+        background: var(--ink-2);
+        color: var(--bone);
+      }
+      .herd .section-head p {
+        color: var(--bone-dim);
+      }
+      .herd-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1px;
+        background: var(--line-dark);
+        border: 1px solid var(--line-dark);
+      }
+      .herd-card {
+        background: var(--ink-2);
+        padding: 36px 30px;
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+        min-height: 210px;
+      }
+      .herd-card .icon {
+        width: 30px;
+        height: 30px;
+        color: var(--amber);
+      }
+      .herd-card h4 {
+        font-family: "Fraunces", serif;
+        font-weight: 700;
+        font-size: 21px;
+        margin: 0;
+      }
+      .herd-card p {
+        color: var(--bone-dim);
+        font-size: 14.5px;
+        margin: 0;
+      }
+
+      /* ---------- FEATURED BOTTLES ---------- */
+      .featured {
+        background: var(--bone);
+      }
+      .bottle-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 44px;
+      }
+      .bottle-card {
+        display: flex;
+        flex-direction: column;
+      }
+      .bottle-art {
+        background: var(--hide);
+        aspect-ratio: 3/4;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 34px;
+        border: 1px solid var(--line-light);
+      }
+      .bottle-art svg {
+        width: 100%;
+        height: 100%;
+      }
+      .bottle-meta {
+        padding-top: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        gap: 10px;
+      }
+      .bottle-meta h4 {
+        font-family: "Fraunces", serif;
+        font-weight: 700;
+        font-size: 20px;
+      }
+      .bottle-lot {
+        font-size: 12.5px;
+        color: var(--amber-dim);
+        font-weight: 600;
+        white-space: nowrap;
+      }
+      .bottle-notes {
+        font-size: 14.5px;
+        color: #4a4638;
+        margin-top: 8px;
+      }
+      .bottle-price {
+        font-family: "Fraunces", serif;
+        font-weight: 700;
+        font-size: 17px;
+        margin-top: 14px;
+        color: var(--rust);
+      }
+
+      /* ---------- VISIT ---------- */
+      .visit {
+        position: relative;
+        color: var(--bone);
+        background: var(--ink);
+      }
+      .visit-bg {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+      }
+      .visit-bg img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: grayscale(1) contrast(1.1) brightness(0.55);
+      }
+      .visit-bg .scrim {
+        position: absolute;
+        inset: 0;
+        background: rgba(23, 21, 15, 0.55);
+      }
+      .visit .wrap {
+        position: relative;
+        z-index: 1;
+      }
+      .visit-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 60px;
+      }
+      .visit-info h2 {
+        font-size: clamp(30px, 3.6vw, 44px);
+        margin-bottom: 20px;
+        color: var(--bone);
+      }
+      .visit-info p.lede {
+        color: var(--bone-dim);
+        max-width: 44ch;
+        margin-bottom: 32px;
+      }
+      .visit-list {
+        display: flex;
+        flex-direction: column;
+        gap: 22px;
+      }
+      .visit-item {
+        display: flex;
+        gap: 16px;
+        align-items: flex-start;
+      }
+      .visit-item .icon {
+        color: var(--amber);
+        margin-top: 2px;
+      }
+      .visit-item h5 {
+        margin: 0 0 4px;
+        font-family: "Archivo", sans-serif;
+        font-weight: 600;
+        font-size: 15px;
+      }
+      .visit-item p {
+        margin: 0;
+        color: var(--bone-dim);
+        font-size: 14.5px;
+      }
+
+      .hours-panel {
+        background: rgba(239, 231, 211, 0.06);
+        border: 1px solid var(--line-dark);
+        padding: 36px;
+      }
+      .hours-panel h3 {
+        font-size: 20px;
+        margin-bottom: 22px;
+        color: var(--bone);
+      }
+      .hours-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 0;
+        border-bottom: 1px solid var(--line-dark);
+        font-size: 14.5px;
+      }
+      .hours-row:last-child {
+        border-bottom: none;
+      }
+      .hours-row span:first-child {
+        color: var(--bone-dim);
+      }
+      .hours-row span:last-child {
+        font-weight: 600;
+      }
+
+      /* ---------- NEWSLETTER ---------- */
+      .crash {
+        background: var(--rust);
+        color: var(--bone);
+      }
+      .crash-grid {
+        display: grid;
+        grid-template-columns: 1.2fr 1fr;
+        gap: 50px;
+        align-items: center;
+      }
+      .crash h2 {
+        font-size: clamp(28px, 3.4vw, 40px);
+        color: var(--bone);
+      }
+      .crash p {
+        margin-top: 14px;
+        color: rgba(239, 231, 211, 0.85);
+        max-width: 46ch;
+      }
+      .crash-form {
+        display: flex;
+        gap: 0;
+        border: 1.5px solid var(--bone);
+      }
+      .crash-form input {
+        flex: 1;
+        background: none;
+        border: none;
+        padding: 16px 18px;
+        color: var(--bone);
+        font-family: "Archivo", sans-serif;
+        font-size: 15px;
+      }
+      .crash-form input::placeholder {
+        color: rgba(239, 231, 211, 0.6);
+      }
+      .crash-form button {
+        background: var(--bone);
+        color: var(--rust);
+        border: none;
+        padding: 0 26px;
+        font-family: "Archivo", sans-serif;
+        font-weight: 700;
+        font-size: 14.5px;
+        cursor: pointer;
+      }
+      .crash-form button:hover {
+        background: var(--ink);
+        color: var(--bone);
+      }
+
+      /* ---------- FOOTER ---------- */
+      footer {
+        background: var(--ink);
+        color: var(--bone-dim);
+        padding: 64px 0 28px;
+      }
+      .foot-grid {
+        display: grid;
+        grid-template-columns: 1.4fr 1fr 1fr 1fr;
+        gap: 40px;
+        padding-bottom: 44px;
+        border-bottom: 1px solid var(--line-dark);
+      }
+      .foot-brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 16px;
+      }
+      .foot-brand svg {
+        width: 26px;
+        height: 26px;
+        color: var(--bone);
+      }
+      .foot-brand span {
+        font-family: "Fraunces", serif;
+        font-weight: 900;
+        font-size: 19px;
+        color: var(--bone);
+      }
+      .foot-col h6 {
+        font-family: "Archivo", sans-serif;
+        font-weight: 600;
+        font-size: 13.5px;
+        color: var(--bone);
+        margin: 0 0 16px;
+      }
+      .foot-col a {
+        display: block;
+        text-decoration: none;
+        font-size: 14.5px;
+        color: var(--bone-dim);
+        margin-bottom: 10px;
+      }
+      .foot-col a:hover {
+        color: var(--bone);
+      }
+      .foot-social {
+        display: flex;
+        gap: 14px;
+        margin-top: 6px;
+      }
+      .foot-social a {
+        border: 1px solid var(--line-dark);
+        padding: 9px;
+        display: flex;
+      }
+      .foot-social .icon {
+        width: 17px;
+        height: 17px;
+      }
+      .foot-bottom {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 26px;
+        font-size: 13px;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      /* ---------- RESPONSIVE ---------- */
+      @media (max-width: 920px) {
+        .navlinks {
+          display: none;
+        }
+        .menu-toggle {
+          display: block;
+        }
+        .hero-grid {
+          grid-template-columns: 1fr;
+          padding-top: 44px;
+        }
+        .hero-art {
+          margin-top: 20px;
+          order: -1;
+        }
+        .hero-art .frame-detail {
+          left: -16px;
+          bottom: -24px;
+          width: 38%;
+        }
+        .phil-grid {
+          grid-template-columns: 1fr;
+        }
+        .herd-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+        .bottle-grid {
+          grid-template-columns: 1fr;
+          gap: 56px;
+        }
+        .visit-grid {
+          grid-template-columns: 1fr;
+        }
+        .crash-grid {
+          grid-template-columns: 1fr;
+        }
+        .foot-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+      @media (max-width: 560px) {
+        .wrap,
+        .nav {
+          padding-left: 20px;
+          padding-right: 20px;
+        }
+        section {
+          padding: 72px 0;
+        }
+        .herd-grid {
+          grid-template-columns: 1fr;
+        }
+        .foot-grid {
+          grid-template-columns: 1fr;
+        }
+        .hero-stats {
+          gap: 24px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- ============ ICON SPRITE ============ -->
+    <svg width="0" height="0" style="position: absolute">
+      <symbol id="i-horn" viewBox="0 0 24 24">
+        <path
+          d="M12 21c-3 0-5-2-5-5 0-4 2-7 2-11 0-2 1-3 3-3s3 1 3 3c0 4 2 7 2 11 0 3-2 5-5 5z"
+        />
+        <path d="M12 21v-3" />
+      </symbol>
+      <symbol id="i-glass" viewBox="0 0 24 24">
+        <path d="M6 3h12l-1.6 12.5a3 3 0 0 1-3 2.5h-2.8a3 3 0 0 1-3-2.5L6 3z" />
+        <path d="M9 21h6" />
+        <path d="M12 18v3" />
+      </symbol>
+      <symbol id="i-cask" viewBox="0 0 24 24">
+        <path
+          d="M5 7c0-2 3-3.5 7-3.5S19 5 19 7v10c0 2-3 3.5-7 3.5S5 19 5 17V7z"
+        />
+        <path d="M5 9c2 1 12 1 14 0" />
+        <path d="M5 15c2-1 12-1 14 0" />
+      </symbol>
+      <symbol id="i-agave" viewBox="0 0 24 24">
+        <path d="M12 21V9" />
+        <path d="M12 9C9 9 6 6 6 3" />
+        <path d="M12 9c3 0 6-3 6-6" />
+        <path d="M12 12C8.5 12 6 9.5 4 8" />
+        <path d="M12 12c3.5 0 6-2.5 8-4" />
+      </symbol>
+      <symbol id="i-grape" viewBox="0 0 24 24">
+        <circle cx="8" cy="9" r="2.4" />
+        <circle cx="13" cy="7" r="2.4" />
+        <circle cx="8" cy="14" r="2.4" />
+        <circle cx="13" cy="12.5" r="2.4" />
+        <circle cx="10.5" cy="17.5" r="2.4" />
+        <path d="M11 3c0 1.4-1 2.6-2.4 3" />
+      </symbol>
+      <symbol id="i-drop" viewBox="0 0 24 24">
+        <path d="M12 3c3 4 6 7.5 6 11a6 6 0 0 1-12 0c0-3.5 3-7 6-11z" />
+      </symbol>
+      <symbol id="i-bubbles" viewBox="0 0 24 24">
+        <circle cx="9" cy="15" r="6" />
+        <circle cx="16" cy="8" r="3.4" />
+      </symbol>
+      <symbol id="i-pin" viewBox="0 0 24 24">
+        <path d="M12 21s7-6.6 7-12a7 7 0 0 0-14 0c0 5.4 7 12 7 12z" />
+        <circle cx="12" cy="9" r="2.4" />
+      </symbol>
+      <symbol id="i-clock" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="9" />
+        <path d="M12 7v5l3.5 2" />
+      </symbol>
+      <symbol id="i-phone" viewBox="0 0 24 24">
+        <path
+          d="M6 3h3l1.5 4.5-2 1.5a12 12 0 0 0 6.5 6.5l1.5-2L21 15v3a2 2 0 0 1-2 2c-8 0-15-7-15-15a2 2 0 0 1 2-2z"
+        />
+      </symbol>
+      <symbol id="i-mail" viewBox="0 0 24 24">
+        <rect x="3" y="5" width="18" height="14" rx="1" />
+        <path d="M3.5 6.5 12 13l8.5-6.5" />
+      </symbol>
+      <symbol id="i-ig" viewBox="0 0 24 24">
+        <rect x="3.5" y="3.5" width="17" height="17" rx="4.5" />
+        <circle cx="12" cy="12" r="4" />
+        <circle cx="17" cy="7" r="0.8" fill="currentColor" stroke="none" />
+      </symbol>
+      <symbol id="i-x" viewBox="0 0 24 24">
+        <path d="M4 4l16 16" />
+        <path d="M20 4 4 20" />
+      </symbol>
+      <symbol id="i-fb" viewBox="0 0 24 24">
+        <path
+          d="M14 21v-7h2.4l.4-3H14V9c0-1 .3-1.7 1.8-1.7H17V4.7A20 20 0 0 0 14.7 4.6C12.2 4.6 10.5 6.1 10.5 8.7V11H8v3h2.5v7"
+        />
+      </symbol>
+      <symbol id="i-menu" viewBox="0 0 24 24">
+        <path d="M4 7h16" />
+        <path d="M4 12h16" />
+        <path d="M4 17h16" />
+      </symbol>
+    </svg>
+
+    <!-- ============ HORN DIVIDER (reused shape) ============ -->
+    <!-- inline defs below per-section for fill color control -->
+
+    <!-- ============ NAV ============ -->
+    <header>
+      <div class="nav">
+        <a href="#top" class="brand">
+          <svg
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            fill="none"
+            stroke-width="1.4"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <use href="#i-horn" />
+          </svg>
+          <span>RHINO</span>
+        </a>
+        <nav class="navlinks">
+          <a href="#herd">The shelf</a>
+          <a href="#philosophy">Our approach</a>
+          <a href="#featured">Featured lots</a>
+          <a href="#visit">Visit</a>
+        </nav>
+        <div class="navcta">
+          <a
+            href="/login"
+            class="btn btn-line-bone"
+            style="padding: 10px 20px; font-size: 14px"
+            >Open POS</a
+          >
+          <button class="menu-toggle" aria-label="Open menu">
+            <svg class="icon" style="width: 24px; height: 24px">
+              <use href="#i-menu" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- ============ HERO ============ -->
+    <section class="hero" id="top" style="padding-bottom: 0">
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <span class="label">Independent bottle shop — Ruiru, Kiambu</span>
+          <h1>Thick&nbsp;skin.<br />Good&nbsp;taste.</h1>
+          <p class="lede">
+            RHINO is a small, stubborn liquor store built around one idea: fewer
+            bottles, chosen properly. No trend shelves, no filler brands, no
+            apologies for what we don't stock.
+          </p>
+          <div class="hero-actions">
+            <a href="/login" class="btn btn-solid">Open POS</a>
+            <a href="/login" class="btn btn-line-bone">Login</a>
+          </div>
+          <div class="hero-stats">
+            <div>
+              <p class="num">6</p>
+              <p class="cap">spirit categories, curated tight</p>
+            </div>
+            <div>
+              <p class="num">120+</p>
+              <p class="cap">labels in rotation</p>
+            </div>
+            <div>
+              <p class="num">6&nbsp;days</p>
+              <p class="cap">open, tastings on Thursdays</p>
+            </div>
+          </div>
+        </div>
+        <div class="hero-art">
+          <div class="frame-main">
+            <img
+              src="https://images.pexels.com/photos/18023727/pexels-photo-18023727.jpeg?auto=compress&cs=tinysrgb&w=1400"
+              alt="Black and white portrait of a rhino"
+            />
+            <div class="scrim"></div>
+          </div>
+          <div class="frame-detail">
+            <img
+              src="https://images.pexels.com/photos/10536452/pexels-photo-10536452.jpeg?auto=compress&cs=tinysrgb&w=800"
+              alt="Close detail of a rhino horn"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="divider" aria-hidden="true">
+        <svg viewBox="0 0 1200 46" preserveAspectRatio="none">
+          <path
+            d="M0,0 H760 L820,46 L860,10 L910,46 H1200 V46 H0 Z"
+            fill="#EFE7D3"
+          />
+        </svg>
+      </div>
+    </section>
+
+    <!-- ============ PHILOSOPHY ============ -->
+    <section class="philosophy" id="philosophy">
+      <div class="wrap">
+        <div class="phil-grid">
+          <div class="phil-img">
+            <img
+              src="https://images.pexels.com/photos/6432368/pexels-photo-6432368.jpeg?auto=compress&cs=tinysrgb&w=1000"
+              alt="Close-up texture of a rhino's hide and horn"
+            />
+          </div>
+          <div class="phil-text">
+            <span class="label">Why "Rhino"</span>
+            <h3 style="margin-top: 14px">
+              Built like the animal, not the logo
+            </h3>
+            <p>
+              A rhino has terrible eyesight and an extraordinary nose. It
+              doesn't chase what glitters — it follows scent, patience, and
+              habit. We buy the same way: we taste before we shelve, and we'd
+              rather sell one bottle we believe in than ten we don't.
+            </p>
+            <p>
+              That means slower restocks, shorter shelves, and a staff who will
+              tell you honestly when something isn't worth your money.
+            </p>
+            <p class="phil-quote">"We trust our nose over the noise."</p>
+          </div>
+        </div>
+      </div>
+      <div class="divider" aria-hidden="true">
+        <svg viewBox="0 0 1200 46" preserveAspectRatio="none">
+          <path
+            d="M0,46 H320 L370,4 L410,38 L450,46 H1200 V46 H0 Z"
+            fill="#221E15"
+          />
+        </svg>
+      </div>
+    </section>
+
+    <!-- ============ THE HERD (categories) ============ -->
+    <section class="herd" id="herd" style="padding-top: 0">
+      <div class="wrap" style="padding-top: 80px">
+        <div class="section-head">
+          <span class="label">The shelf, sorted</span>
+          <h2>A group of rhinos is called a crash.<br />Here's ours.</h2>
+          <p>
+            Six categories, kept deliberately narrow. If it's on the shelf,
+            someone here has already argued for it.
+          </p>
+        </div>
+
+        <div class="herd-grid">
+          <div class="herd-card">
+            <svg class="icon"><use href="#i-cask" /></svg>
+            <h4>Whisky &amp; Bourbon</h4>
+            <p>
+              Single malts, small-batch bourbon, and a few casks we bought
+              because we couldn't leave them behind.
+            </p>
+          </div>
+          <div class="herd-card">
+            <svg class="icon"><use href="#i-glass" /></svg>
+            <h4>Rum &amp; Cachaça</h4>
+            <p>
+              Pot-still and column, from unaged white to twenty-year-old sipping
+              rum.
+            </p>
+          </div>
+          <div class="herd-card">
+            <svg class="icon"><use href="#i-agave" /></svg>
+            <h4>Agave</h4>
+            <p>Tequila and mezcal chosen for the plant, not the packaging.</p>
+          </div>
+          <div class="herd-card">
+            <svg class="icon"><use href="#i-drop" /></svg>
+            <h4>Gin &amp; Botanicals</h4>
+            <p>
+              Classic London dry alongside small distillers doing something
+              genuinely different.
+            </p>
+          </div>
+          <div class="herd-card">
+            <svg class="icon"><use href="#i-bubbles" /></svg>
+            <h4>Amaro &amp; Bitters</h4>
+            <p>
+              The bitter end of the shelf — for people who've stopped needing
+              their drinks sweet.
+            </p>
+          </div>
+          <div class="herd-card">
+            <svg class="icon"><use href="#i-grape" /></svg>
+            <h4>Wine &amp; Bubbles</h4>
+            <p>
+              A short, honest list of reds, whites, and something to open when
+              it matters.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="divider" aria-hidden="true">
+        <svg viewBox="0 0 1200 46" preserveAspectRatio="none">
+          <path
+            d="M0,0 H900 L945,42 L985,14 L1030,0 H1200 V46 H0 Z"
+            fill="#EFE7D3"
+          />
+        </svg>
+      </div>
+    </section>
+
+    <!-- ============ FEATURED LOTS ============ -->
+    <section class="featured" id="featured" style="padding-top: 0">
+      <div class="wrap" style="padding-top: 80px">
+        <div class="section-head">
+          <span class="label">Currently pouring</span>
+          <h2>Three from this month's lot</h2>
+          <p>
+            Small deliveries, batch-tracked. When a lot sells out, it may not
+            come back the same.
+          </p>
+        </div>
+
+        <div class="bottle-grid">
+          <div class="bottle-card">
+            <div class="bottle-art">
+              <svg viewBox="0 0 120 200" xmlns="http://www.w3.org/2000/svg">
+                <rect x="42" y="10" width="14" height="16" fill="#EFE7D3" />
+                <path
+                  d="M40 26 L58 26 L64 46 L64 180 Q64 190 54 190 L44 190 Q34 190 34 180 L34 46 Z"
+                  fill="#B8863B"
+                />
+                <rect
+                  x="34"
+                  y="70"
+                  width="30"
+                  height="46"
+                  fill="#EFE7D3"
+                  opacity="0.9"
+                />
+                <rect
+                  x="34"
+                  y="70"
+                  width="30"
+                  height="46"
+                  fill="none"
+                  stroke="#3B3324"
+                  stroke-width="1"
+                />
+              </svg>
+            </div>
+            <div class="bottle-meta">
+              <h4>Ironhide Single Malt</h4>
+              <span class="bottle-lot">Lot&nbsp;014</span>
+            </div>
+            <p class="bottle-notes">
+              Ex-bourbon cask, ten years. Toffee and char up front, dry oak on
+              the finish.
+            </p>
+            <p class="bottle-price">KSh 6,800</p>
+          </div>
+
+          <div class="bottle-card">
+            <div class="bottle-art">
+              <svg viewBox="0 0 120 200" xmlns="http://www.w3.org/2000/svg">
+                <rect x="45" y="8" width="10" height="14" fill="#EFE7D3" />
+                <path
+                  d="M44 22 L56 22 L60 40 L60 182 Q60 192 50 192 L50 192 Q40 192 40 182 L40 40 Z"
+                  fill="#8B3A2B"
+                />
+                <rect
+                  x="40"
+                  y="60"
+                  width="20"
+                  height="40"
+                  fill="#EFE7D3"
+                  opacity="0.9"
+                />
+              </svg>
+            </div>
+            <div class="bottle-meta">
+              <h4>Dust &amp; Horn Reposado</h4>
+              <span class="bottle-lot">Lot&nbsp;027</span>
+            </div>
+            <p class="bottle-notes">
+              Highland agave, rested eight months in used oak. Roasted pepper,
+              soft vanilla.
+            </p>
+            <p class="bottle-price">KSh 5,200</p>
+          </div>
+
+          <div class="bottle-card">
+            <div class="bottle-art">
+              <svg viewBox="0 0 120 200" xmlns="http://www.w3.org/2000/svg">
+                <rect x="48" y="6" width="8" height="12" fill="#EFE7D3" />
+                <path
+                  d="M46 18 Q46 30 38 40 L38 184 Q38 194 48 194 L56 194 Q66 194 66 184 L66 40 Q58 30 58 18 Z"
+                  fill="#565039"
+                />
+                <rect
+                  x="38"
+                  y="90"
+                  width="28"
+                  height="40"
+                  fill="#EFE7D3"
+                  opacity="0.9"
+                />
+              </svg>
+            </div>
+            <div class="bottle-meta">
+              <h4>Thicket Amaro</h4>
+              <span class="bottle-lot">Lot&nbsp;009</span>
+            </div>
+            <p class="bottle-notes">
+              Wormwood, gentian, and dried orange peel. Built for the end of
+              dinner, not the start.
+            </p>
+            <p class="bottle-price">KSh 3,400</p>
+          </div>
+        </div>
+      </div>
+      <div class="divider" aria-hidden="true">
+        <svg viewBox="0 0 1200 46" preserveAspectRatio="none">
+          <path d="M0,46 H500 L540,6 L580,46 H1200 V46 H0 Z" fill="#17150F" />
+        </svg>
+      </div>
+    </section>
+
+    <!-- ============ VISIT ============ -->
+    <section class="visit" id="visit" style="padding-top: 0">
+      <div class="visit-bg">
+        <img
+          src="https://images.pexels.com/photos/27048424/pexels-photo-27048424.jpeg?auto=compress&cs=tinysrgb&w=1600"
+          alt="Side view of a rhino with a large horn"
+        />
+        <div class="scrim"></div>
+      </div>
+      <div class="wrap" style="padding-top: 80px">
+        <div class="visit-grid">
+          <div class="visit-info">
+            <span class="label">Come find the shelf</span>
+            <h2 style="margin-top: 14px">Visit the store</h2>
+            <p class="lede">
+              We're a walk-in shop first. Come smell the corks, ask questions,
+              and leave with something we'd drink ourselves.
+            </p>
+            <div class="visit-list">
+              <div class="visit-item">
+                <svg class="icon"><use href="#i-pin" /></svg>
+                <div>
+                  <h5>Address</h5>
+                  <p>Kamiti Road, Ruiru, Kiambu County</p>
+                </div>
+              </div>
+              <div class="visit-item">
+                <svg class="icon"><use href="#i-phone" /></svg>
+                <div>
+                  <h5>Phone</h5>
+                  <p>+254 700 123 456</p>
+                </div>
+              </div>
+              <div class="visit-item">
+                <svg class="icon"><use href="#i-mail" /></svg>
+                <div>
+                  <h5>Email</h5>
+                  <p>hello@rhinobottles.co.ke</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="hours-panel">
+            <h3>Hours</h3>
+            <div class="hours-row">
+              <span>Monday – Friday</span><span>10:00 – 21:00</span>
+            </div>
+            <div class="hours-row">
+              <span>Saturday</span><span>10:00 – 22:00</span>
+            </div>
+            <div class="hours-row"><span>Sunday</span><span>Closed</span></div>
+            <div class="hours-row">
+              <span>Tastings</span><span>Thursdays, 18:00</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ NEWSLETTER ============ -->
+    <section class="crash">
+      <div class="wrap">
+        <div class="crash-grid">
+          <div>
+            <h2>Join the crash</h2>
+            <p>
+              New arrivals, small-batch drops, and first word on tastings — sent
+              when we actually have something worth saying.
+            </p>
+          </div>
+          <form class="crash-form" onsubmit="return false;">
+            <input type="email" placeholder="you@email.com" required />
+            <button type="submit">Subscribe</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ FOOTER ============ -->
+    <footer>
+      <div class="wrap">
+        <div class="foot-grid">
+          <div>
+            <div class="foot-brand">
+              <svg
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                fill="none"
+                stroke-width="1.4"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <use href="#i-horn" />
+              </svg>
+              <span>RHINO</span>
+            </div>
+            <p style="max-width: 32ch; font-size: 14px">
+              An independent bottle shop in Ruiru. Fewer bottles, chosen
+              properly.
+            </p>
+            <div class="foot-social">
+              <a href="#" aria-label="Instagram"
+                ><svg class="icon"><use href="#i-ig" /></svg
+              ></a>
+              <a href="#" aria-label="Facebook"
+                ><svg class="icon"><use href="#i-fb" /></svg
+              ></a>
+              <a href="#" aria-label="X"
+                ><svg class="icon"><use href="#i-x" /></svg
+              ></a>
+            </div>
+          </div>
+          <div class="foot-col">
+            <h6>Shop</h6>
+            <a href="#herd">The shelf</a>
+            <a href="#featured">Featured lots</a>
+            <a href="#philosophy">Our approach</a>
+          </div>
+          <div class="foot-col">
+            <h6>Visit</h6>
+            <a href="#visit">Directions</a>
+            <a href="#visit">Hours</a>
+            <a href="#visit">Tastings</a>
+          </div>
+          <div class="foot-col">
+            <h6>Contact</h6>
+            <a href="mailto:hello@rhinobottles.co.ke"
+              >hello@rhinobottles.co.ke</a
+            >
+            <a href="tel:+254700123456">+254 700 123 456</a>
+          </div>
+        </div>
+        <div class="foot-bottom">
+          <span>© 2026 Rhino Bottle Shop. All rights reserved.</span>
+          <span>Please drink responsibly. 18+ only.</span>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      const toggle = document.querySelector(".menu-toggle");
+      const links = document.querySelector(".navlinks");
+      if (toggle) {
+        toggle.addEventListener("click", () => {
+          const open = links.style.display === "flex";
+          links.style.display = open ? "none" : "flex";
+          links.style.flexDirection = "column";
+          links.style.position = "absolute";
+          links.style.top = "64px";
+          links.style.left = "0";
+          links.style.right = "0";
+          links.style.background = "var(--ink)";
+          links.style.padding = "20px 32px";
+          links.style.gap = "18px";
+          links.style.borderBottom = "1px solid var(--line-dark)";
+        });
+      }
+    </script>
+  </body>
+</html>

@@ -214,7 +214,7 @@ def home(request: Request):
     if not request.session.get("user"):
         return templates.TemplateResponse(
             request=request,
-            name="landing.html",
+            name="rhino-liquor-landing.html",
         )
 
     return RedirectResponse(
@@ -227,7 +227,7 @@ def home(request: Request):
 def landing_page(request: Request):
     return templates.TemplateResponse(
         request=request,
-        name="landing.html",
+        name="rhino-liquor-landing.html",
     )
 
 
