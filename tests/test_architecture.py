@@ -25,3 +25,9 @@ def test_render_port_and_healthcheck():
     main=read('app/main.py'); docker=read('Dockerfile')
     assert 'os.getenv("PORT"' in main or 'PORT' in docker
     assert '/healthz' in main
+
+
+def test_render_postgres_url_compatibility():
+    db=read('app/db.py')
+    assert 'postgres://"' in db or "postgres://" in db
+    assert 'postgresql+psycopg://"' in db or "postgresql+psycopg://" in db

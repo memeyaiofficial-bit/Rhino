@@ -5,12 +5,14 @@ import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, DeclarativeBase
 
-DATABASE_URL = os.getenv("DATABASE_URL")
+DATABASE_URL = (os.getenv("DATABASE_URL") or "").strip()
 if not DATABASE_URL:
     raise RuntimeError(
         "DATABASE_URL is required. Black Rhino production uses PostgreSQL. "
-        "Set DATABASE_URL to a postgresql+psycopg:// connection string."
+        "Set DATABASE_URL to a PostgreSQL connection string."
     )
+if DATABASE_URL.startswith("postgres://"):
+    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql+psycopg://", 1)
 if not DATABASE_URL.startswith("postgresql"):
     raise RuntimeError("Black Rhino production database must be PostgreSQL; SQLite is not supported by the server.")
 
