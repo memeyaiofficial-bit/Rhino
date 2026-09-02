@@ -113,6 +113,11 @@ templates = Jinja2Templates(
 )
 
 
+@app.get("/healthz")
+def healthcheck():
+    return {"status": "ok"}
+
+
 # ---------------------------------------------------------------------------
 # HELPERS
 # ---------------------------------------------------------------------------
@@ -510,11 +515,7 @@ def _sale_payload_validate(
         client_id = secrets.token_hex(16)
 
     # Idempotency check for normal and offline sales.
-    existing = db.scalar(
-        select(Sale).where(
-            Sale.client_id == client_id
-        )
-    )
+    existing = db.scalar(select(Sale).where(Sale.client_id == client_id))
 
     if existing:
         return {
@@ -946,11 +947,7 @@ def create_sale(
             payload.get("client_id") or ""
         )[:64]
 
-        existing = db.scalar(
-            select(Sale).where(
-                Sale.client_id == client_id
-            )
-        )
+        existing = db.scalar(select(Sale).where(Sale.client_id == client_id))
 
         if existing:
             return {
@@ -1099,11 +1096,7 @@ def sync_sales(
         except IntegrityError:
             db.rollback()
 
-            existing = db.scalar(
-                select(Sale).where(
-                    Sale.client_id == client_id
-                )
-            )
+            existing = db.scalar(select(Sale).where(Sale.client_id == client_id))
 
             if existing:
                 results.append(

@@ -42,11 +42,11 @@ Open `http://127.0.0.1:8000`.
 
 Default accounts created by the seed script:
 
-| Role | Username | Password |
-|---|---|---|
-| Admin | admin | admin123 |
-| Manager | manager | manager123 |
-| Cashier | cashier | cashier123 |
+| Role    | Username | Password   |
+| ------- | -------- | ---------- |
+| Admin   | admin    | admin123   |
+| Manager | manager  | manager123 |
+| Cashier | cashier  | cashier123 |
 
 Change these credentials immediately in a real deployment.
 
@@ -76,6 +76,26 @@ Important operational behavior:
 6. Open `/pos` while connected and keep the POS browser installed/available on the till device so the offline shell and snapshot are cached.
 
 Docker Compose includes PostgreSQL 16 with a health check. Replace all `CHANGE_THIS_*` values before production use.
+
+## Deploy to Render
+
+This app is ready for a Render Web Service using the included Dockerfile.
+
+1. Create a new Render Web Service and choose Docker.
+2. Set the repository root as the service root.
+3. Add the following environment variables in Render:
+   - `DATABASE_URL` = the PostgreSQL connection string from your Render PostgreSQL database (for example, `postgresql+psycopg://user:password@host:port/dbname`)
+   - `APP_SECRET` = a long random secret
+   - `SESSION_HTTPS_ONLY` = `1`
+   - `STORE_NAME` = `BLACK RHINO LIQUOR STORE`
+   - `INITIAL_ADMIN_USERNAME` = `admin`
+   - `INITIAL_ADMIN_PASSWORD` = a strong password you change immediately
+   - `CURRENCY` = `KES`
+   - `MINIMUM_PURCHASE_AGE` = `18`
+4. In the service settings, set the health check path to `/healthz`.
+5. Deploy the service. Once the app is running, open the Render URL and log in with the seeded admin user.
+
+Render will inject its own `PORT`, and the app now respects that port. The health endpoint at `/healthz` is included for Render health checks.
 
 ## Catalogue import
 
