@@ -1,0 +1,503 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Black Rhino | Modern Liquor POS</title>
+    <link rel="icon" href="/favicon.ico" type="image/png" />
+    <style>
+      :root {
+        --bg: #140f0a;
+        --bg-soft: #1d1712;
+        --panel: #221d1a;
+        --panel-2: #2d2823;
+        --text: #f7f2ea;
+        --muted: #d7cab4;
+        --gold: #d4a95a;
+        --gold-2: #b78534;
+        --wine: #7d2d20;
+        --line: rgba(255, 255, 255, 0.1);
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        margin: 0;
+        font-family: Arial, Helvetica, sans-serif;
+        background: radial-gradient(circle at top, #2a221d, var(--bg) 38%);
+        color: var(--text);
+        line-height: 1.6;
+      }
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+      img {
+        max-width: 100%;
+        display: block;
+      }
+      .wrap {
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 0 28px;
+      }
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        background: rgba(20, 15, 10, 0.86);
+        border-bottom: 1px solid var(--line);
+        backdrop-filter: blur(8px);
+      }
+      .nav {
+        height: 76px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-weight: 700;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+      .brand-mark {
+        width: 30px;
+        height: 30px;
+        display: grid;
+        place-items: center;
+        border-radius: 50%;
+        background: linear-gradient(135deg, var(--gold), var(--gold-2));
+        color: #1d1712;
+        font-weight: 900;
+        font-size: 18px;
+      }
+      .nav-links {
+        display: flex;
+        align-items: center;
+        gap: 26px;
+        color: var(--muted);
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+      .nav-actions {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 999px;
+        padding: 12px 22px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        transition: 0.2s ease;
+        border: 1px solid transparent;
+        cursor: pointer;
+      }
+      .btn.primary {
+        background: linear-gradient(135deg, var(--gold), var(--gold-2));
+        color: #1b140d;
+        box-shadow: 0 12px 24px rgba(212, 169, 90, 0.22);
+      }
+      .btn.primary:hover {
+        transform: translateY(-1px);
+      }
+      .btn.ghost {
+        background: transparent;
+        border-color: var(--line);
+        color: var(--text);
+      }
+      .btn.ghost:hover {
+        background: rgba(255, 255, 255, 0.04);
+      }
+      .hero {
+        padding: 76px 0 40px;
+      }
+      .hero-grid {
+        display: grid;
+        grid-template-columns: 1.15fr 0.85fr;
+        gap: 32px;
+        align-items: center;
+      }
+      .eyebrow {
+        display: inline-block;
+        padding: 8px 12px;
+        border: 1px solid rgba(212, 169, 90, 0.45);
+        border-radius: 999px;
+        color: var(--gold);
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        font-size: 11px;
+        font-weight: 700;
+        margin-bottom: 20px;
+      }
+      h1 {
+        margin: 0;
+        font-size: clamp(3rem, 6vw, 6rem);
+        line-height: 0.96;
+        letter-spacing: -0.06em;
+      }
+      .lede {
+        max-width: 600px;
+        color: var(--muted);
+        font-size: 1.08rem;
+        margin: 24px 0 28px;
+      }
+      .hero-actions {
+        display: flex;
+        gap: 14px;
+        flex-wrap: wrap;
+        margin-bottom: 22px;
+      }
+      .trust {
+        display: flex;
+        gap: 18px;
+        flex-wrap: wrap;
+        color: var(--muted);
+        font-size: 13px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+      .hero-card {
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.04),
+          rgba(255, 255, 255, 0.015)
+        );
+        border: 1px solid var(--line);
+        border-radius: 30px;
+        overflow: hidden;
+        box-shadow: 0 30px 70px rgba(0, 0, 0, 0.22);
+      }
+      .hero-card .visual {
+        aspect-ratio: 4 / 5;
+        background: url("https://images.pexels.com/photos/1005638/pexels-photo-1005638.jpeg?auto=compress&cs=tinysrgb&w=1200")
+          center/cover no-repeat;
+        border-bottom: 1px solid var(--line);
+      }
+      .hero-card .info {
+        padding: 22px 22px 24px;
+      }
+      .mini-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 12px;
+      }
+      .mini-label {
+        color: var(--muted);
+        font-size: 12px;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+      .badge {
+        background: rgba(212, 169, 90, 0.12);
+        color: var(--gold);
+        border: 1px solid rgba(212, 169, 90, 0.3);
+        border-radius: 999px;
+        padding: 7px 10px;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+        padding-top: 20px;
+        border-top: 1px solid var(--line);
+        margin-top: 18px;
+      }
+      .stat strong {
+        display: block;
+        font-size: clamp(1.5rem, 2vw, 2.1rem);
+        color: var(--gold);
+        margin-bottom: 2px;
+      }
+      .stat span {
+        color: var(--muted);
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+      .section {
+        padding: 48px 0 28px;
+      }
+      .section-head {
+        margin-bottom: 22px;
+      }
+      .section-head h2 {
+        margin: 0 0 8px;
+        font-size: clamp(2rem, 3vw, 3rem);
+        letter-spacing: -0.05em;
+      }
+      .section-head p {
+        margin: 0;
+        color: var(--muted);
+        max-width: 620px;
+      }
+      .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 20px;
+      }
+      .feature {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid var(--line);
+        border-radius: 24px;
+        padding: 22px;
+      }
+      .feature .icon {
+        width: 48px;
+        height: 48px;
+        display: grid;
+        place-items: center;
+        border-radius: 14px;
+        background: rgba(212, 169, 90, 0.1);
+        border: 1px solid rgba(212, 169, 90, 0.22);
+        color: var(--gold);
+        font-size: 24px;
+        margin-bottom: 18px;
+      }
+      .feature h3 {
+        margin: 0 0 10px;
+        font-size: 1.3rem;
+      }
+      .feature p {
+        margin: 0;
+        color: var(--muted);
+      }
+      .cta {
+        margin-top: 34px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        background: linear-gradient(
+          135deg,
+          rgba(125, 45, 32, 0.75),
+          rgba(28, 24, 21, 0.8)
+        );
+        border: 1px solid rgba(212, 169, 90, 0.2);
+        border-radius: 28px;
+        padding: 26px 28px;
+      }
+      .cta h3 {
+        margin: 0;
+        font-size: clamp(1.5rem, 2.2vw, 2.3rem);
+        letter-spacing: -0.04em;
+      }
+      .cta p {
+        margin: 8px 0 0;
+        color: rgba(247, 242, 234, 0.81);
+      }
+      footer {
+        padding: 26px 0 60px;
+        border-top: 1px solid var(--line);
+        margin-top: 40px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+      @media (max-width: 900px) {
+        .hero-grid,
+        .feature-grid {
+          grid-template-columns: 1fr;
+        }
+        .nav-links {
+          display: none;
+        }
+        .stats {
+          grid-template-columns: repeat(3, 1fr);
+        }
+      }
+      @media (max-width: 560px) {
+        .nav {
+          height: 68px;
+        }
+        .nav-actions .ghost {
+          display: none;
+        }
+        .hero {
+          padding-top: 48px;
+        }
+        .stats {
+          grid-template-columns: 1fr;
+        }
+        .cta {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        .wrap {
+          padding: 0 18px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="wrap nav">
+        <a class="brand" href="/">
+          <span class="brand-mark">R</span>
+          <span>Black Rhino</span>
+        </a>
+        <nav class="nav-links" aria-label="Main navigation">
+          <a href="#features">Features</a>
+          <a href="#about">About</a>
+          <a href="#ops">Operations</a>
+        </nav>
+        <div class="nav-actions">
+          <a class="btn ghost" href="/login">Login</a>
+          <a class="btn primary" href="/login">Access POS</a>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="wrap hero-grid">
+          <div>
+            <div class="eyebrow">Modern liquor store operations</div>
+            <h1>Built for fast sales, tighter stock, and cleaner control.</h1>
+            <p class="lede">
+              Black Rhino combines a confident POS workflow with strong
+              inventory control, offline-ready tills, and real-time reporting so
+              the shop runs smoothly even when the internet is flaky.
+            </p>
+            <div class="hero-actions">
+              <a class="btn primary" href="/login">Open Dashboard</a>
+              <a class="btn ghost" href="#features">See Features</a>
+            </div>
+            <div class="trust">
+              <span>postgreSQL</span>
+              <span>offline POS</span>
+              <span>role control</span>
+            </div>
+          </div>
+
+          <div class="hero-card">
+            <div class="visual" aria-hidden="true"></div>
+            <div class="info">
+              <div class="mini-row">
+                <span class="mini-label">Live store</span>
+                <span class="badge">Ready</span>
+              </div>
+              <div class="mini-row">
+                <strong>Black Rhino POS</strong>
+                <span class="mini-label">Central</span>
+              </div>
+              <div class="stats">
+                <div class="stat">
+                  <strong>6</strong>
+                  <span>roles</span>
+                </div>
+                <div class="stat">
+                  <strong>24/7</strong>
+                  <span>sync</span>
+                </div>
+                <div class="stat">
+                  <strong>0</strong>
+                  <span>stock blind spots</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="features">
+        <div class="wrap">
+          <div class="section-head">
+            <h2>Everything a liquor shop needs to move quickly.</h2>
+            <p>
+              From point of sale to stock control and reconciliation, the system
+              is designed for daily retail operations.
+            </p>
+          </div>
+
+          <div class="feature-grid">
+            <article class="feature">
+              <div class="icon">▣</div>
+              <h3>POS checkout</h3>
+              <p>
+                Fast product lookup, barcode support, age verification,
+                discounts, and payment tracking without slowing the service
+                counter.
+              </p>
+            </article>
+            <article class="feature">
+              <div class="icon">◫</div>
+              <h3>Inventory control</h3>
+              <p>
+                Keep stock, movements, and low-stock warnings organized in one
+                operational system with proper accounting flow.
+              </p>
+            </article>
+            <article class="feature">
+              <div class="icon">▤</div>
+              <h3>Offline-ready tills</h3>
+              <p>
+                Sales can queue locally and sync back to PostgreSQL when the
+                connection returns, while preserving integrity.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="about">
+        <div class="wrap">
+          <div class="section-head">
+            <h2>Control without drama.</h2>
+            <p>
+              Clear role permissions, structured shifts, supplier flow, and
+              payment visibility keep the team accountable and the till
+              accurate.
+            </p>
+          </div>
+          <div class="cta">
+            <div>
+              <h3>Ready to manage the shop properly?</h3>
+              <p>
+                Sign in to the live dashboard and start operating from the main
+                POS workspace.
+              </p>
+            </div>
+            <a class="btn primary" href="/login">Access Login</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="ops">
+        <div class="wrap">
+          <div class="section-head">
+            <h2>Built for modern retail operations.</h2>
+            <p>
+              Admin-level oversight, cashier workflows, and reporting combine to
+              keep stock and sales under control without adding process
+              overhead.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="wrap">
+        © 2026 Black Rhino POS · Built for liquor retail operations
+      </div>
+    </footer>
+  </body>
+</html>

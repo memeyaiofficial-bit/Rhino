@@ -184,6 +184,15 @@ def service_worker_alias():
     )
 
 
+@app.get("/favicon.ico")
+def favicon():
+    return FileResponse(
+        BASE_DIR / "static" / "logo.png",
+        media_type="image/png",
+        headers={"Cache-Control": "public, max-age=86400"},
+    )
+
+
 # ---------------------------------------------------------------------------
 # OFFLINE POS
 # ---------------------------------------------------------------------------
@@ -203,14 +212,22 @@ def offline_pos(request: Request):
 @app.get("/", response_class=HTMLResponse)
 def home(request: Request):
     if not request.session.get("user"):
-        return RedirectResponse(
-            "/login",
-            status_code=303,
+        return templates.TemplateResponse(
+            request=request,
+            name="landing.html",
         )
 
     return RedirectResponse(
         "/dashboard",
         status_code=303,
+    )
+
+
+@app.get("/landing", response_class=HTMLResponse)
+def landing_page(request: Request):
+    return templates.TemplateResponse(
+        request=request,
+        name="landing.html",
     )
 
 
@@ -274,52 +291,6 @@ async def login(
     db.commit()
 
     return RedirectResponse("/dashboard", status_code=303)
-
-    user = db.scalar(
-        select(User)
-        .options(joinedload(User.role))
-        .where(User.username == username)
-    )
-
-    if (
-        not user
-        or not user.is_active
-        or not verify_password(password, user.password_hash)
-    ):
-        return templates.TemplateResponse(
-            request=request,
-            name="login.html",
-            context={
-                "error": "Invalid username or password."
-            },
-            status_code=401,
-        )
-
-    # Replace the existing session contents after successful login.
-    # This prevents stale authentication data from surviving login.
-    request.session.clear()
-
-    request.session["user"] = {
-        "id": user.id,
-        "username": user.username,
-        "name": user.full_name,
-        "role": user.role.name,
-    }
-
-    audit(
-        db,
-        user.id,
-        "LOGIN",
-        "User",
-        user.id,
-    )
-
-    db.commit()
-
-    return RedirectResponse(
-        "/dashboard",
-        status_code=303,
-    )
 
 
 # ---------------------------------------------------------------------------
