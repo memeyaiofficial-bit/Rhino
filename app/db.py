@@ -13,6 +13,8 @@ if not DATABASE_URL:
     )
 if DATABASE_URL.startswith("postgres://"):
     DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql+psycopg://", 1)
+elif DATABASE_URL.startswith("postgresql://"):
+    DATABASE_URL = DATABASE_URL.replace("postgresql://", "postgresql+psycopg://", 1)
 if not DATABASE_URL.startswith("postgresql"):
     raise RuntimeError("Black Rhino production database must be PostgreSQL; SQLite is not supported by the server.")
 

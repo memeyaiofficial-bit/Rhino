@@ -30,4 +30,5 @@ def test_render_port_and_healthcheck():
 def test_render_postgres_url_compatibility():
     db=read('app/db.py')
     assert 'postgres://"' in db or "postgres://" in db
+    assert 'postgresql://"' in db or "postgresql://" in db
     assert 'postgresql+psycopg://"' in db or "postgresql+psycopg://" in db
